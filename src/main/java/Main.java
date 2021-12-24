@@ -6,10 +6,14 @@ public class Main {
         var connection = Db.getConnection("jdbc:sqlite:./catalog.sqlite");
         try {
             var data = Csv.ParseCsv("./catalog.csv");
+            assert connection != null;
             Db.updateProducts(connection, data);
-            if (connection != null) {
-                connection.close();
-            }
+            var histogram = Histogram.createHistogram("Средняя цена",
+                    connection,
+                    "Названия товаров",
+                    "Средняя цена, р.");
+            Histogram.saveAsPng(histogram, "Task1", 800, 500);
+            connection.close();
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
