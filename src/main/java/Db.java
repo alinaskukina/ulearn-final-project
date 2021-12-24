@@ -17,13 +17,10 @@ public class Db {
         return null;
     }
 
-    public static void updateProducts(Connection conn, List<Product> products) {
-        Connection connection;
-        Statement statement;
+    public static void updateProducts(Connection connection, List<Product> products) {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:./catalog.sqlite");
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
             createProductsIfNotExists(statement);
 
             int i = 0;
@@ -39,8 +36,7 @@ public class Db {
             }
             statement.executeBatch();
             statement.close();
-            connection.close();
-            System.out.printf("Обновлено %s строк", i);
+            System.out.printf("Обновлено %s строк%n", i);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -64,7 +60,7 @@ public class Db {
                 "AMOUNT      INT  NOT NULL )");
     }
 
-    public static double getMedianPrice(Connection conn, String name) throws SQLException {
+    public static double getAveragePrice(Connection conn, String name) throws SQLException {
         Statement statement = conn.createStatement();
         statement.execute("SELECT AVG(PRICE) FROM Products " +
                 "WHERE NAME LIKE '%"+name+"%'");
