@@ -25,8 +25,8 @@ public class Db {
             connection = DriverManager.getConnection("jdbc:sqlite:./catalog.sqlite");
             statement = connection.createStatement();
             createProductsIfNotExists(statement);
-            int i = 0;
 
+            int i = 0;
             while (i < products.size()){
                 var product = products.get(i);
                 String name = product.Name;
@@ -40,10 +40,9 @@ public class Db {
             statement.executeBatch();
             statement.close();
             connection.close();
-            System.out.printf("Successfully updated %s lines%n", i);
-        } catch ( Exception e ) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            System.out.printf("Обновлено %s строк", i);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

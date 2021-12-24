@@ -6,6 +6,7 @@ public class Main {
         var connection = Db.getConnection("jdbc:sqlite:./catalog.sqlite");
         try {
             var data = Csv.ParseCsv("./catalog.csv");
+            Db.updateProducts(connection, data);
             if (connection != null) {
                 connection.close();
             }
